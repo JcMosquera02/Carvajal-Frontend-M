@@ -1,4 +1,4 @@
-﻿@if (authService.authenticated()) {
+@if (authService.authenticated()) {
 
   <header class="navbar">
 
@@ -8,7 +8,12 @@
         routerLink="/catalog"
         class="brand"
       >
-        Carvajal Wishlist
+        <span class="brand-mark">C</span>
+
+        <span class="brand-copy">
+          <strong>Carvajal</strong>
+          <small>Wishlist</small>
+        </span>
       </a>
 
       <nav>
@@ -56,17 +61,25 @@
 
       <div class="session">
 
-        <span>
-          {{ authService.username() }}
-          -
-          {{ authService.role() }}
-        </span>
+        <div class="user-chip">
+
+          <span class="avatar">
+            {{ authService.username()?.charAt(0)?.toUpperCase() }}
+          </span>
+
+          <span class="user-data">
+            <strong>{{ authService.username() }}</strong>
+            <small>{{ authService.role() }}</small>
+          </span>
+
+        </div>
 
         <button
           type="button"
+          class="logout"
           (click)="logout()"
         >
-          Cerrar sesión
+          Salir
         </button>
 
       </div>

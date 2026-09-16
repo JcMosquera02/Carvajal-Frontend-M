@@ -194,146 +194,229 @@ import {
   `,
 
   styles: [`
-
-    .catalog-page {
-      padding: 35px 25px;
-      max-width: 1200px;
+.catalog-page {
+      width: min(1320px, 100%);
       margin: auto;
+      padding: 34px 24px 60px;
     }
 
     .header {
+      position: relative;
+      overflow: hidden;
       display: flex;
-      justify-content:
-        space-between;
-      align-items: center;
-      gap: 20px;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 28px;
       margin-bottom: 30px;
-      flex-wrap: wrap;
+      padding: 34px;
+      border-radius: 28px;
+      background: var(--dark);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -70px;
+      top: -90px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .30;
     }
 
     .header h1 {
-      margin-bottom: 5px;
+      position: relative;
+      z-index: 1;
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: -.045em;
     }
 
     .header p {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
       margin: 0;
-      color: #666;
+      color: #bdcfcd;
+      font-size: 15px;
     }
 
     .header input {
-      min-width: 280px;
-      padding: 12px;
-      border:
-        1px solid #d5dbe2;
-      border-radius: 8px;
+      position: relative;
+      z-index: 1;
+      width: min(330px, 100%);
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      outline: none;
+      background: rgba(255,255,255,.10);
+      color: white;
+    }
+
+    .header input::placeholder {
+      color: #b9c6c5;
+    }
+
+    .header input:focus {
+      border-color: var(--teal);
+      background: rgba(255,255,255,.15);
     }
 
     .grid {
       display: grid;
       grid-template-columns:
-        repeat(
-          auto-fit,
-          minmax(260px, 1fr)
-        );
-      gap: 20px;
+        repeat(auto-fill, minmax(255px, 1fr));
+      gap: 22px;
     }
 
     .card {
+      position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 22px;
-      background: white;
-      border:
-        1px solid #e5e9ed;
-      border-radius: 14px;
-      box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.06);
+      min-height: 470px;
+      padding: 14px 14px 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
     }
 
     .product-image {
       width: 100%;
-      height: 180px;
+      height: 210px;
       object-fit: contain;
-      border-radius: 10px;
       margin-bottom: 15px;
-      background: #f7f7f7;
-      padding: 8px;
+      padding: 16px;
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          135deg,
+          #f4efe6,
+          #edf4ef
+        );
     }
 
-    .card h2 {
-      margin-bottom: 8px;
+    .status {
+      margin: 0 4px 8px;
     }
 
-    .description {
-      color: #555;
-      min-height: 45px;
-    }
-
-    .price {
-      margin-bottom: 5px;
-      font-size: 1.35rem;
-      font-weight: bold;
-      color: #005baa;
-    }
-
-    .stock {
-      color: #555;
+    .available,
+    .unavailable {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
     }
 
     .available {
-      color: #177245;
-      font-weight: 600;
+      background: var(--teal-soft);
+      color: #187466;
     }
 
     .unavailable {
-      color: #b42318;
-      font-weight: 600;
+      background: #fbe4df;
+      color: #b24735;
+    }
+
+    .card h2 {
+      margin: 5px 4px 6px;
+      color: var(--dark);
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .description {
+      min-height: 42px;
+      margin: 0 4px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .price {
+      margin: auto 4px 2px;
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .stock {
+      margin: 0 4px 16px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .wishlist-button {
-      margin-top: auto;
-      padding: 12px;
+      width: calc(100% - 8px);
+      margin: 0 4px;
+      padding: 13px;
       border: none;
-      border-radius: 8px;
-      background: #005baa;
+      border-radius: 14px;
+      background: var(--dark);
       color: white;
-      font-weight: 600;
+      font-weight: 800;
       cursor: pointer;
     }
 
-    .wishlist-button:hover:not(
-      :disabled
-    ) {
-      background: #004886;
+    .wishlist-button:hover:not(:disabled) {
+      background: var(--accent);
     }
 
     .wishlist-button:disabled {
-      background: #aab4be;
+      background: #c8c6c1;
       cursor: not-allowed;
     }
 
     .message {
-      padding: 14px;
+      padding: 14px 18px;
       margin-bottom: 20px;
-      border-radius: 8px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-soft);
     }
 
     .success {
-      background: #dcf5e6;
-      color: #17683a;
+      border-left: 5px solid var(--teal);
+      background: #eef9f6;
+      color: #176d60;
     }
 
     .error {
-      background: #ffe4e4;
-      color: #a02222;
+      border-left: 5px solid var(--danger);
+      background: #fff0ee;
+      color: #a34038;
     }
 
     .state {
-      padding: 30px;
+      padding: 60px 20px;
+      color: var(--muted);
       text-align: center;
     }
 
+    @media (max-width: 760px) {
+      .header {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .header input {
+        width: 100%;
+      }
+    }
   `]
 })
 export class CatalogComponent
