@@ -43,12 +43,12 @@ import {
         <div>
 
           <h1>
-            Catálogo de productos
+            CatÃƒÂ¡logo de productos
           </h1>
 
           <p>
             Consulta los productos disponibles
-            y agrégalos a tu lista de deseos
+            y agrÃƒÂ©galos a tu lista de deseos
           </p>
 
         </div>
@@ -435,6 +435,44 @@ export class CatalogComponent
       );
   }
 
+
+  getProductImage(productName: string): string {
+
+    const images: Record<string, string> = {
+
+      'Lápiz Mirado No. 2':
+        'assets/products/Lápiz Mirado No. 2.jpg',
+
+      'Morral Totto Universitario':
+        'assets/products/Morral Totto Universitario.jpg',
+
+      'Calculadora Casio fx-82':
+        'assets/products/Calculadora Casio fx-82.jpg',
+
+      'Cuaderno Norma Jean Book':
+        'assets/products/Cuaderno Norma Jean Book.jpg',
+
+      'Borrador Nata Pelikan':
+        'assets/products/Borrador Nata Pelikan.jpg',
+
+      'Cinta Pegante Tesa':
+        'assets/products/Cinta Pegante Tesa.jpg',
+
+      'Bolígrafo Kilométrico':
+        'assets/products/Bolígrafo Kilométrico.jpg',
+
+      'Carpeta Fuelle Norma':
+        'assets/products/Carpeta Fuelle Norma.jpg',
+
+      'Resma Papel Reprograf':
+        'assets/products/Resma Papel Reprograf.jpg',
+
+      'Marcadores Sharpie':
+        'assets/products/Marcadores Sharpie.jpg'
+    };
+
+    return images[productName] ?? 'assets/products/default.svg';
+  }
   addToWishlist(
     product: Product
   ): void {
