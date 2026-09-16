@@ -43,12 +43,12 @@ import {
         <div>
 
           <h1>
-            CatÃƒÆ’Ã‚Â¡logo de productos
+            Catálogo de productos
           </h1>
 
           <p>
             Consulta los productos disponibles
-            y agrÃƒÆ’Ã‚Â©galos a tu lista de deseos
+            y agrégalos a tu lista de deseos
           </p>
 
         </div>
@@ -440,8 +440,8 @@ export class CatalogComponent
 
     const images: Record<string, string> = {
 
-      'LÃ¡piz Mirado No. 2':
-        'assets/products/LÃ¡piz Mirado No. 2.jpg',
+      'Lápiz Mirado No. 2':
+        'assets/products/Lápiz Mirado No. 2.jpg',
 
       'Morral Totto Universitario':
         'assets/products/Morral Totto Universitario.jpg',
@@ -458,8 +458,8 @@ export class CatalogComponent
       'Cinta Pegante Tesa':
         'assets/products/Cinta Pegante Tesa.jpg',
 
-      'BolÃ­grafo KilomÃ©trico':
-        'assets/products/BolÃ­grafo KilomÃ©trico.jpg',
+      'Bolígrafo Kilométrico':
+        'assets/products/Bolígrafo Kilométrico.jpg',
 
       'Carpeta Fuelle Norma':
         'assets/products/Carpeta Fuelle Norma.jpg',
