@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   OnInit,
   signal
@@ -145,64 +145,101 @@ import {
   `,
 
   styles: [`
-
-    .page {
-      max-width: 1200px;
+.page {
+      width: min(1240px, 100%);
       margin: auto;
-      padding: 35px 25px;
+      padding: 38px 24px 60px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--dark);
+      font-size: clamp(30px, 4vw, 44px);
+      letter-spacing: -.04em;
     }
 
     .description {
-      color: #6c757d;
-      margin-bottom: 30px;
+      margin: 8px 0 30px;
+      color: var(--muted);
     }
 
     .table-wrapper {
+      overflow: hidden;
       overflow-x: auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow:
-        0 5px 15px rgba(0,0,0,.05);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
     }
 
     table {
       width: 100%;
+      min-width: 720px;
       border-collapse: collapse;
     }
 
     th,
     td {
-      padding: 16px;
+      padding: 17px 20px;
       text-align: left;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--line);
     }
 
     th {
-      background: #f7f9fb;
+      background: var(--dark);
+      color: #dbe5e4;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      transition: background .18s ease;
+    }
+
+    tbody tr:hover {
+      background: #f7f4ee;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .available,
+    .unavailable {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
     }
 
     .available {
-      color: #198754;
-      font-weight: 600;
+      background: var(--teal-soft);
+      color: #187466;
     }
 
     .unavailable {
-      color: #c62828;
-      font-weight: 600;
+      background: #fbe4df;
+      color: #b24735;
     }
 
     .message {
-      padding: 30px;
+      padding: 45px;
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+      color: var(--muted);
       text-align: center;
     }
 
     .error {
-      padding: 15px;
-      border-radius: 8px;
-      background: #ffe5e5;
-      color: #a02222;
+      padding: 15px 18px;
+      border-left: 5px solid var(--danger);
+      border-radius: 12px;
+      background: #fff0ee;
+      color: #a34038;
     }
-
   `]
 })
 export class HistoryComponent

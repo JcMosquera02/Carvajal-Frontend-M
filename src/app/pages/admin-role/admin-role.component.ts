@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   signal
 } from '@angular/core';
@@ -163,71 +163,90 @@ import {
   `,
 
   styles: [`
-
-    .page {
-      min-height: calc(100vh - 70px);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 45px 20px;
-      background: #f5f7fa;
+.page {
+      min-height: calc(100vh - 90px);
+      display: grid;
+      place-items: start center;
+      padding: 50px 20px;
+      background:
+        radial-gradient(
+          circle at 80% 15%,
+          rgba(42,157,143,.12),
+          transparent 24%
+        );
     }
 
     .card {
-      width: 100%;
-      max-width: 500px;
-      background: white;
-      padding: 32px;
-      border-radius: 15px;
-      box-shadow:
-        0 10px 30px rgba(0,0,0,.08);
+      width: min(560px, 100%);
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
     }
 
     .icon {
-      width: 55px;
-      height: 55px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #edf3f9;
-      border-radius: 15px;
-      font-size: 25px;
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--dark);
+      color: white;
+      font-size: 27px;
+      transform: rotate(-4deg);
     }
 
     h1 {
-      margin-bottom: 7px;
+      margin: 22px 0 7px;
+      color: var(--dark);
+      font-size: 30px;
+      letter-spacing: -.03em;
     }
 
     .description {
-      color: #777;
-      margin-bottom: 25px;
+      margin-bottom: 27px;
+      color: var(--muted);
     }
 
     label {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
       margin-bottom: 18px;
-      font-weight: 600;
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 800;
     }
 
     input,
     select {
-      padding: 12px;
-      border: 1px solid #d4dae1;
-      border-radius: 8px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      outline: none;
       background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(42,157,143,.11);
     }
 
     button {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       border: none;
-      border-radius: 8px;
-      background: #005baa;
+      border-radius: 14px;
+      background: var(--accent);
       color: white;
-      font-weight: 600;
+      font-weight: 900;
       cursor: pointer;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--accent-dark);
     }
 
     button:disabled {
@@ -235,28 +254,32 @@ import {
     }
 
     .alert {
-      padding: 13px;
+      padding: 13px 16px;
       margin-bottom: 18px;
-      border-radius: 8px;
+      border-radius: 12px;
     }
 
     .success {
-      background: #e4f7e7;
-      color: #176b2c;
+      border-left: 5px solid var(--teal);
+      background: #eef9f6;
+      color: #176d60;
     }
 
     .error {
-      background: #ffe4e4;
-      color: #a02222;
+      border-left: 5px solid var(--danger);
+      background: #fff0ee;
+      color: #a34038;
     }
 
     .result {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
+      margin-top: 28px;
+      padding: 22px;
+      border-radius: 18px;
+      background: #f1ede6;
     }
 
     .result h2 {
+      margin-top: 0;
       font-size: 18px;
     }
 
@@ -264,13 +287,17 @@ import {
       display: flex;
       justify-content: space-between;
       gap: 20px;
-      padding: 8px 0;
+      padding: 10px 0;
+      border-bottom: 1px dashed #d7d0c5;
+    }
+
+    .row:last-child {
+      border-bottom: 0;
     }
 
     .row span {
-      color: #777;
+      color: var(--muted);
     }
-
   `]
 })
 export class AdminRoleComponent {

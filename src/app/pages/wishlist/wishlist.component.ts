@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   OnInit,
   computed,
@@ -223,74 +223,90 @@ import {
   `,
 
   styles: [`
-
-    .page {
-      max-width: 1200px;
+.page {
+      width: min(1240px, 100%);
       margin: auto;
-      padding: 35px 25px;
+      padding: 38px 24px 60px;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: end;
       gap: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
     }
 
     .header h1 {
-      margin: 0 0 5px;
+      margin: 0 0 7px;
+      color: var(--dark);
+      font-size: clamp(30px, 4vw, 44px);
+      letter-spacing: -.04em;
     }
 
     .header p {
       margin: 0;
-      color: #666;
+      color: var(--muted);
     }
 
     .counter {
-      padding: 10px 15px;
-      background: #eef3f8;
-      border-radius: 20px;
-      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--dark);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
     }
 
     .alert {
-      padding: 15px;
-      border-radius: 10px;
+      padding: 15px 18px;
       margin-bottom: 20px;
+      border-radius: 14px;
     }
 
     .warning {
-      background: #fff4d7;
-      color: #7d5800;
+      border-left: 5px solid var(--warning);
+      background: #fff5df;
+      color: #845b13;
     }
 
     .error {
-      background: #ffe2e2;
-      color: #9d1d1d;
+      border-left: 5px solid var(--danger);
+      background: #fff0ee;
+      color: #a34038;
     }
 
     .grid {
       display: grid;
       grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(280px, 1fr)
-        );
+        repeat(auto-fill, minmax(310px, 1fr));
       gap: 20px;
     }
 
     .card {
-      padding: 22px;
-      background: white;
-      border: 1px solid #e2e6ea;
-      border-radius: 14px;
-      box-shadow:
-        0 5px 15px rgba(0,0,0,.05);
+      position: relative;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
     }
 
-    .out-stock {
-      border-color: #e8adad;
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 0;
+      width: 5px;
+      height: 58px;
+      border-radius: 0 8px 8px 0;
+      background: var(--teal);
+    }
+
+    .out-stock::before {
+      background: var(--danger);
     }
 
     .card-header {
@@ -300,81 +316,126 @@ import {
     }
 
     .card h2 {
-      margin: 0 0 7px;
-      font-size: 18px;
+      margin: 0 0 8px;
+      color: var(--dark);
+      font-size: 19px;
     }
 
     .stock {
-      color: #198754;
-      font-size: 13px;
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--teal-soft);
+      color: #187466;
+      font-size: 11px;
+      font-weight: 800;
     }
 
     .unavailable {
-      color: #c62828;
+      background: #fbe4df;
+      color: #b24735;
     }
 
     .delete {
-      width: 35px;
-      height: 35px;
+      width: 38px;
+      height: 38px;
       border: none;
-      border-radius: 50%;
-      background: #ffeded;
-      color: #c62828;
+      border-radius: 12px;
+      background: #f8e7e3;
+      color: #b24735;
+      font-weight: 900;
       cursor: pointer;
     }
 
     .price {
-      margin: 25px 0;
-      font-size: 25px;
-      font-weight: 700;
+      margin: 28px 0;
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 900;
     }
 
     .quantity label {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .quantity input {
-      width: 75px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
+      width: 82px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      outline: none;
+      background: #faf8f4;
+    }
+
+    .quantity input:focus {
+      border-color: var(--teal);
     }
 
     .subtotal {
       display: flex;
       justify-content: space-between;
       margin-top: 20px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
+      padding-top: 17px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    .subtotal strong {
+      color: var(--dark);
     }
 
     .summary {
       display: flex;
       justify-content: space-between;
-      margin-top: 30px;
-      padding: 20px;
-      border-radius: 12px;
-      background: #f3f6f9;
-      font-size: 20px;
+      align-items: center;
+      margin-top: 28px;
+      padding: 24px 28px;
+      border-radius: 22px;
+      background: var(--dark);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .summary span {
+      color: #b9c9c7;
+    }
+
+    .summary strong {
+      color: #f3c969;
+      font-size: 26px;
     }
 
     .empty {
+      margin: 35px 0;
       padding: 70px 20px;
+      border: 2px dashed var(--line);
+      border-radius: 24px;
+      background: rgba(255,255,255,.45);
       text-align: center;
     }
 
     .heart {
-      color: #aaa;
+      color: var(--accent);
       font-size: 70px;
     }
 
     .state {
-      padding: 25px;
+      padding: 30px;
+      color: var(--muted);
       text-align: center;
     }
 
+    @media (max-width: 650px) {
+      .header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
   `]
 })
 export class WishlistComponent
