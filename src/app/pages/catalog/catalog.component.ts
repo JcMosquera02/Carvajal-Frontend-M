@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   OnInit,
   signal
@@ -100,6 +100,12 @@ import {
           ) {
 
             <article class="card">
+
+              <img
+                [src]="getProductImage(product.name)"
+                [alt]="product.name"
+                class="product-image"
+              >
 
               <div class="status">
 
@@ -243,6 +249,16 @@ import {
       box-shadow:
         0 8px 25px
         rgba(0,0,0,.06);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background: #f7f7f7;
+      padding: 8px;
     }
 
     .card h2 {
