@@ -21,6 +21,10 @@ import {
   ProductService
 } from '../../core/services/product.service';
 
+import {
+  WishlistService
+} from '../../core/services/wishlist.service';
+
 @Component({
   selector: 'app-catalog',
   standalone: true,
@@ -37,13 +41,16 @@ import {
       <section class="header">
 
         <div>
+
           <h1>
             Catálogo de productos
           </h1>
 
           <p>
             Consulta los productos disponibles
+            y agrégalos a tu lista de deseos
           </p>
+
         </div>
 
         <input
@@ -55,15 +62,31 @@ import {
 
       </section>
 
+      @if (success()) {
+
+        <div class="message success">
+          {{ success() }}
+        </div>
+
+      }
+
+      @if (wishlistError()) {
+
+        <div class="message error">
+          {{ wishlistError() }}
+        </div>
+
+      }
+
       @if (loading()) {
 
-        <p>
+        <div class="state">
           Cargando productos...
-        </p>
+        </div>
 
       } @else if (error()) {
 
-        <div class="error">
+        <div class="message error">
           {{ error() }}
         </div>
 
@@ -107,26 +130,53 @@ import {
               </p>
 
               <p class="price">
+
                 {{
                   product.price |
-                  currency:'COP':
-                  'symbol-narrow':
-                  '1.0-0'
+                  currency:
+                    'COP':
+                    'symbol':
+                    '1.0-0'
                 }}
+
               </p>
 
-              <p>
+              <p class="stock">
                 Stock:
                 {{ product.stock }}
               </p>
+
+              <button
+                type="button"
+                class="wishlist-button"
+                [disabled]="
+                  product.stock <= 0 ||
+                  addingProductId() === product.id
+                "
+                (click)="addToWishlist(product)"
+              >
+
+                @if (
+                  addingProductId() === product.id
+                ) {
+
+                  Agregando...
+
+                } @else {
+
+                  Agregar a wishlist
+
+                }
+
+              </button>
 
             </article>
 
           } @empty {
 
-            <p>
+            <div class="state">
               No se encontraron productos
-            </p>
+            </div>
 
           }
 
@@ -138,25 +188,37 @@ import {
   `,
 
   styles: [`
+
     .catalog-page {
-      padding: 30px;
+      padding: 35px 25px;
       max-width: 1200px;
       margin: auto;
     }
 
     .header {
       display: flex;
-      justify-content: space-between;
+      justify-content:
+        space-between;
       align-items: center;
       gap: 20px;
       margin-bottom: 30px;
       flex-wrap: wrap;
     }
 
+    .header h1 {
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      margin: 0;
+      color: #666;
+    }
+
     .header input {
       min-width: 280px;
       padding: 12px;
-      border: 1px solid #d5dbe2;
+      border:
+        1px solid #d5dbe2;
       border-radius: 8px;
     }
 
@@ -165,17 +227,26 @@ import {
       grid-template-columns:
         repeat(
           auto-fit,
-          minmax(250px, 1fr)
+          minmax(260px, 1fr)
         );
       gap: 20px;
     }
 
     .card {
-      background: white;
+      display: flex;
+      flex-direction: column;
       padding: 22px;
+      background: white;
+      border:
+        1px solid #e5e9ed;
       border-radius: 14px;
       box-shadow:
-        0 8px 25px rgba(0,0,0,.08);
+        0 8px 25px
+        rgba(0,0,0,.06);
+    }
+
+    .card h2 {
+      margin-bottom: 8px;
     }
 
     .description {
@@ -184,9 +255,14 @@ import {
     }
 
     .price {
-      font-size: 1.3rem;
+      margin-bottom: 5px;
+      font-size: 1.35rem;
       font-weight: bold;
       color: #005baa;
+    }
+
+    .stock {
+      color: #555;
     }
 
     .available {
@@ -199,12 +275,49 @@ import {
       font-weight: 600;
     }
 
-    .error {
-      padding: 15px;
+    .wishlist-button {
+      margin-top: auto;
+      padding: 12px;
+      border: none;
       border-radius: 8px;
+      background: #005baa;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .wishlist-button:hover:not(
+      :disabled
+    ) {
+      background: #004886;
+    }
+
+    .wishlist-button:disabled {
+      background: #aab4be;
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .success {
+      background: #dcf5e6;
+      color: #17683a;
+    }
+
+    .error {
       background: #ffe4e4;
       color: #a02222;
     }
+
+    .state {
+      padding: 30px;
+      text-align: center;
+    }
+
   `]
 })
 export class CatalogComponent
@@ -222,9 +335,21 @@ export class CatalogComponent
   error =
     signal('');
 
+  success =
+    signal('');
+
+  wishlistError =
+    signal('');
+
+  addingProductId =
+    signal<number | null>(null);
+
   constructor(
     private productService:
-      ProductService
+      ProductService,
+
+    private wishlistService:
+      WishlistService
   ) {}
 
   ngOnInit(): void {
@@ -252,13 +377,15 @@ export class CatalogComponent
           this.loading.set(false);
         },
 
-        error: () => {
+        error: error => {
+
+          this.loading.set(false);
 
           this.error.set(
+            error?.error?.message ??
             'No se pudieron cargar los productos'
           );
 
-          this.loading.set(false);
         }
 
       });
@@ -290,5 +417,60 @@ export class CatalogComponent
           .includes(term)
 
       );
+  }
+
+  addToWishlist(
+    product: Product
+  ): void {
+
+    if (product.stock <= 0) {
+
+      this.wishlistError.set(
+        'El producto no tiene stock disponible'
+      );
+
+      return;
+    }
+
+    this.success.set('');
+    this.wishlistError.set('');
+
+    this.addingProductId.set(
+      product.id
+    );
+
+    this.wishlistService
+      .addProduct(
+        product.id,
+        1
+      )
+      .subscribe({
+
+        next: () => {
+
+          this.addingProductId.set(
+            null
+          );
+
+          this.success.set(
+            `${product.name} fue agregado a tu wishlist`
+          );
+
+        },
+
+        error: error => {
+
+          this.addingProductId.set(
+            null
+          );
+
+          this.wishlistError.set(
+            error?.error?.message ??
+            'No se pudo agregar el producto a la wishlist'
+          );
+
+        }
+
+      });
   }
 }
