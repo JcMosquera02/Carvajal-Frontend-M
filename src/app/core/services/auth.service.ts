@@ -27,6 +27,30 @@ export class AuthService {
 
   private readonly apiUrl = '/api/auth';
 
+  private normalizeRole(
+    role: string | null
+  ): UserRole | null {
+
+    if (!role) {
+      return null;
+    }
+
+    const normalized =
+      role
+        .replace('ROLE_', '')
+        .trim()
+        .toUpperCase();
+
+    if (
+      normalized === 'ADMIN' ||
+      normalized === 'CLIENT'
+    ) {
+      return normalized as UserRole;
+    }
+
+    return null;
+  }
+
   private readonly tokenSignal =
     signal<string | null>(
       localStorage.getItem('token')
@@ -39,24 +63,34 @@ export class AuthService {
 
   private readonly roleSignal =
     signal<UserRole | null>(
-      localStorage.getItem('role') as UserRole | null
+      this.normalizeRole(
+        localStorage.getItem('role')
+      )
     );
 
   readonly token =
-    computed(() => this.tokenSignal());
+    computed(() =>
+      this.tokenSignal()
+    );
 
   readonly username =
-    computed(() => this.usernameSignal());
+    computed(() =>
+      this.usernameSignal()
+    );
 
   readonly role =
-    computed(() => this.roleSignal());
+    computed(() =>
+      this.roleSignal()
+    );
 
   readonly authenticated =
-    computed(() => !!this.tokenSignal());
+    computed(() =>
+      !!this.tokenSignal()
+    );
 
   readonly isAdmin =
-    computed(
-      () => this.roleSignal() === 'ADMIN'
+    computed(() =>
+      this.roleSignal() === 'ADMIN'
     );
 
   constructor(
@@ -72,7 +106,40 @@ export class AuthService {
       credentials
     ).pipe(
       tap(response => {
-        this.saveSession(response);
+
+        const normalizedRole =
+          this.normalizeRole(
+            response.role
+          );
+
+        localStorage.setItem(
+          'token',
+          response.token
+        );
+
+        localStorage.setItem(
+          'username',
+          response.username
+        );
+
+        if (normalizedRole) {
+          localStorage.setItem(
+            'role',
+            normalizedRole
+          );
+        }
+
+        this.tokenSignal.set(
+          response.token
+        );
+
+        this.usernameSignal.set(
+          response.username
+        );
+
+        this.roleSignal.set(
+          normalizedRole
+        );
       })
     );
   }
@@ -84,38 +151,6 @@ export class AuthService {
     return this.http.post(
       `${this.apiUrl}/register`,
       data
-    );
-  }
-
-  private saveSession(
-    response: AuthResponse
-  ): void {
-
-    localStorage.setItem(
-      'token',
-      response.token
-    );
-
-    localStorage.setItem(
-      'username',
-      response.username
-    );
-
-    localStorage.setItem(
-      'role',
-      response.role
-    );
-
-    this.tokenSignal.set(
-      response.token
-    );
-
-    this.usernameSignal.set(
-      response.username
-    );
-
-    this.roleSignal.set(
-      response.role
     );
   }
 
@@ -135,7 +170,9 @@ export class AuthService {
   }
 
   getRole(): UserRole | null {
-    return localStorage.getItem('role') as UserRole | null;
+    return this.normalizeRole(
+      localStorage.getItem('role')
+    );
   }
 
   isAuthenticated(): boolean {

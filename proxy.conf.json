@@ -1,4 +1,4 @@
-﻿{
+{
   "/api": {
     "target": "https://carvajal-wishlist-backend-production.up.railway.app",
     "secure": true,
