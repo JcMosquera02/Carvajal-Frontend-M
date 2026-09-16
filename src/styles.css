@@ -1,1 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #f6f1e8;
+  --surface: #fffdf9;
+  --surface-soft: #efe8dd;
+  --ink: #1f292b;
+  --muted: #6f7775;
+  --dark: #172426;
+  --dark-soft: #233638;
+  --accent: #e76f51;
+  --accent-dark: #c6533a;
+  --teal: #2a9d8f;
+  --teal-soft: #dff3ef;
+  --warning: #e9a23b;
+  --danger: #d9534f;
+  --line: #e4ddd2;
+  --shadow: 0 18px 45px rgba(31, 41, 43, .10);
+  --shadow-soft: 0 8px 25px rgba(31, 41, 43, .07);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 5% 10%, rgba(42, 157, 143, .10), transparent 28%),
+    radial-gradient(circle at 95% 5%, rgba(231, 111, 81, .09), transparent 25%),
+    var(--bg);
+  font-family:
+    "Segoe UI",
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(231, 111, 81, .22);
+}

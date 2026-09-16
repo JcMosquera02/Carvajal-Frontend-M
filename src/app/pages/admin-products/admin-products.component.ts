@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   OnInit,
   signal
@@ -314,60 +314,89 @@ import {
   `,
 
   styles: [`
-
-    .page {
-      max-width: 1400px;
+.page {
+      width: min(1450px, 100%);
       margin: auto;
-      padding: 35px 25px;
+      padding: 38px 24px 60px;
     }
 
     .page-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
       gap: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .page-header h1 {
-      margin: 0 0 5px;
+      margin: 0 0 6px;
+      color: var(--dark);
+      font-size: clamp(30px, 4vw, 44px);
+      letter-spacing: -.04em;
     }
 
     .page-header p {
       margin: 0;
-      color: #666;
+      color: var(--muted);
     }
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(300px, 380px) 1fr;
-      gap: 25px;
+      grid-template-columns: minmax(320px, 390px) 1fr;
+      gap: 24px;
       align-items: start;
     }
 
-    .form-card,
+    .form-card {
+      position: sticky;
+      top: 105px;
+      padding: 26px;
+      border-radius: 24px;
+      background: var(--dark);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
     .products-card {
-      background: white;
-      border: 1px solid #e2e6ea;
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 5px 15px rgba(0,0,0,.05);
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .form-card h2,
+    .products-card h2 {
+      margin-top: 0;
+    }
+
+    .form-card label {
+      color: #d8e2e1;
     }
 
     label {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
       margin-bottom: 17px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     input,
     textarea {
-      padding: 11px;
-      border: 1px solid #d3d9df;
-      border-radius: 8px;
-      font-family: inherit;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      outline: none;
+      background: white;
+      color: var(--ink);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(42,157,143,.12);
     }
 
     .two-columns {
@@ -382,125 +411,158 @@ import {
       font-weight: 500;
     }
 
-    .actions {
+    .actions,
+    .row-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     button {
+      padding: 10px 15px;
       border: none;
-      border-radius: 8px;
-      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 800;
       cursor: pointer;
-      font-weight: 600;
     }
 
     .primary {
-      background: #005baa;
+      background: var(--accent);
       color: white;
+      box-shadow: 0 8px 20px rgba(231,111,81,.22);
+    }
+
+    .primary:hover {
+      background: var(--accent-dark);
     }
 
     .secondary {
-      background: #edf1f5;
-      color: #333;
+      background: #ece8e0;
+      color: var(--dark);
+    }
+
+    .form-card .secondary {
+      background: rgba(255,255,255,.10);
+      color: white;
     }
 
     .edit {
-      background: #e8f1fb;
-      color: #005baa;
+      background: var(--teal-soft);
+      color: #187466;
     }
 
     .delete {
-      background: #ffeded;
-      color: #b42318;
+      background: #fbe4df;
+      color: #b24735;
     }
 
     .alert {
-      padding: 14px;
+      padding: 14px 17px;
       margin-bottom: 20px;
-      border-radius: 9px;
+      border-radius: 13px;
     }
 
     .success {
-      background: #e5f6e8;
-      color: #1b6b2d;
+      border-left: 5px solid var(--teal);
+      background: #eef9f6;
+      color: #176d60;
     }
 
     .error {
-      background: #ffe5e5;
-      color: #a02222;
+      border-left: 5px solid var(--danger);
+      background: #fff0ee;
+      color: #a34038;
     }
 
     .table-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
+      gap: 20px;
+      margin-bottom: 17px;
+    }
+
+    .table-header h2 {
+      margin-bottom: 3px;
+    }
+
+    .table-header span {
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .table-wrapper {
       overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
     }
 
     table {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
-      min-width: 700px;
     }
 
     th,
     td {
-      padding: 13px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
       text-align: left;
-      border-bottom: 1px solid #eee;
     }
 
     th {
-      background: #f7f9fb;
+      background: #f2eee7;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    tbody tr:hover {
+      background: #faf7f2;
     }
 
     td small {
       display: block;
-      color: #777;
       margin-top: 4px;
+      color: var(--muted);
     }
 
     .status {
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
     }
 
     .active {
-      background: #e6f5e9;
-      color: #197333;
+      background: var(--teal-soft);
+      color: #187466;
     }
 
     .inactive {
-      background: #eeeeee;
-      color: #666;
+      background: #eceae5;
+      color: #6e706d;
     }
 
     .no-stock {
-      color: #c62828;
-      font-weight: 700;
-    }
-
-    .row-actions {
-      display: flex;
-      gap: 7px;
+      color: var(--danger);
+      font-weight: 900;
     }
 
     .state {
-      padding: 35px;
+      padding: 40px;
+      color: var(--muted);
       text-align: center;
-      color: #777;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 950px) {
       .layout {
         grid-template-columns: 1fr;
+      }
+
+      .form-card {
+        position: static;
       }
 
       .page-header {
@@ -508,7 +570,6 @@ import {
         flex-direction: column;
       }
     }
-
   `]
 })
 export class AdminProductsComponent

@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   signal
 } from '@angular/core';
@@ -107,52 +107,131 @@ import {
   `,
 
   styles: [`
-    .page {
+.page {
+      position: relative;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f5f7fa;
+      display: grid;
+      place-items: center;
+      padding: 40px 24px;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          145deg,
+          #f6f1e8 0%,
+          #e7efe9 55%,
+          #dff3ef 100%
+        );
+    }
+
+    .page::before {
+      content: '';
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      left: -150px;
+      top: -150px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .13;
+    }
+
+    .page::after {
+      content: '';
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      right: -120px;
+      bottom: -100px;
+      border-radius: 50%;
+      background: var(--teal);
+      opacity: .18;
     }
 
     .card {
-      width: 100%;
-      max-width: 450px;
-      padding: 35px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 12px 35px rgba(0,0,0,.08);
+      position: relative;
+      z-index: 1;
+      width: min(500px, 100%);
+      padding: 40px;
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 30px;
+      background: rgba(255,253,249,.93);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 30px;
+      color: var(--dark);
+      font-size: 34px;
+      letter-spacing: -.03em;
+    }
+
+    h1::after {
+      content: '';
+      display: block;
+      width: 56px;
+      height: 5px;
+      margin-top: 12px;
+      border-radius: 999px;
+      background: var(--accent);
     }
 
     label {
       display: flex;
       flex-direction: column;
-      gap: 7px;
-      margin-bottom: 17px;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     input {
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(42,157,143,.12);
     }
 
     button {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       margin-bottom: 20px;
       border: none;
-      border-radius: 8px;
-      background: #005baa;
+      border-radius: 14px;
+      background: var(--dark);
       color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--teal);
+    }
+
+    a {
+      color: var(--accent);
+      font-weight: 800;
+      text-decoration: none;
     }
 
     .error {
-      padding: 12px;
-      background: #ffe4e4;
-      color: #a02222;
-      border-radius: 8px;
-      margin-bottom: 15px;
+      padding: 13px 15px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      background: #fff0ee;
+      color: #a73d37;
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 30px 24px;
+      }
     }
   `]
 })
